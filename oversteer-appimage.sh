@@ -19,7 +19,7 @@ export GTK_DIR=gtk-3.0
 # Deploy dependencies
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
-./quick-sharun /usr/bin/oversteer /usr/bin/python*
+./quick-sharun /usr/bin/oversteer /usr/bin/python* /usr/lib/libgirepository*
 
 # python needs to be added manually
 cp -r /usr/lib/python3.* ./AppDir/lib
