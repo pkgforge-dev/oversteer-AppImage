@@ -13,6 +13,8 @@ export DESKTOP=/usr/share/applications/io.github.berarma.Oversteer.desktop
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export OUTNAME=Oversteer-"$VERSION"-anylinux-"$ARCH".AppImage
 export DEPLOY_LOCALE=1
+export DEPLOY_GTK=1
+export GTK_DIR=gtk-3.0
 
 # Deploy dependencies
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
