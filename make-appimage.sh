@@ -24,5 +24,9 @@ quick-sharun /usr/bin/oversteer /usr/lib/libgirepository*
 mkdir -p ./AppDir/etc/udev/rules.d
 cp /usr/lib/udev/rules.d/*wheel-perms* ./AppDir/etc/udev/rules.d
 
+# add weird hack so that this works in alpine
+echo 'LD_LIBRARY_PATH=/lib64:/usr/lib64:/lib:/usr/lib:${SHARUN_DIR}/lib' >> ./AppDir/.env
+sed -i -e 's|LD_LIBRARY_PATH|LD_LIBRARY_KEK_|g' ./AppDir/shared/lib/anylinux.so
+
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
