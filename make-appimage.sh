@@ -28,6 +28,11 @@ mkdir -p ./AppDir/etc/udev/rules.d
 cp /usr/lib/udev/rules.d/*wheel-perms* ./AppDir/etc/udev/rules.d
 
 sed -i -e 's|/etc/ld.so.cache|/tmp/ld.so.cache|g' ./AppDir/bin/ldconfig
+echo '#!/bin/sh
+if command -v ldconfig 1>/dev/null && [ ! -f /tmp/ld.so.cache ]; then
+	exec ldconfig
+fi
+' > ./AppDir/bin/ldconfig.hook
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
