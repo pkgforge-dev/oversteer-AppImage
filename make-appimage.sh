@@ -33,6 +33,7 @@ if command -v ldconfig 1>/dev/null && [ ! -f /tmp/ld.so.cache ]; then
 	exec ldconfig
 fi
 ' > ./AppDir/bin/ldconfig.hook
+chmod +x ./AppDir/bin/ldconfig.hook
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
