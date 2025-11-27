@@ -18,7 +18,7 @@ export ANYLINUX_LIB=1
 export PATH_MAPPING='/usr/share/locale:${SHARUN_DIR}/share/locale'
 
 # Deploy dependencies
-quick-sharun /usr/bin/oversteer /usr/lib/libgirepository* /usr/lib/libudev.so*
+quick-sharun /usr/bin/oversteer /usr/lib/libgirepository* /usr/lib/libudev.so* /sbin/ldconfig
 
 # Add udev rules
 mkdir -p ./AppDir/etc/udev/rules.d
