@@ -15,26 +15,25 @@ export DEPLOY_SYS_PYTHON=1
 export GTK_DIR=gtk-3.0
 export DEPLOY_LOCALE=1
 export ANYLINUX_LIB=1
-export PATH_MAPPING='/usr/share/locale:${SHARUN_DIR}/share/locale'
+export PATH_MAPPING='
+	/usr/share/locale:${SHARUN_DIR}/share/locale
+	/sbin/ldconfig:${SHARUN_DIR}/bin/ldconfig
+'
 
 # Deploy dependencies
-quick-sharun /usr/bin/oversteer /usr/lib/libgirepository* /usr/lib/libudev.so*
+quick-sharun /usr/bin/oversteer /usr/lib/libgirepository* /usr/lib/libudev.so* /sbin/ldconfig
 
 # Add udev rules
 mkdir -p ./AppDir/etc/udev/rules.d
 cp /usr/lib/udev/rules.d/*wheel-perms* ./AppDir/etc/udev/rules.d
 
-# add weird hack so that this works in alpine
-echo 'LD_LIBRARY_PATH=/lib64:/usr/lib64:/lib:/usr/lib:${SHARUN_DIR}/lib' >> ./AppDir/.env
-sed -i -e 's|LD_LIBRARY_PATH|LD_LIBRARY_KEK_|g' ./AppDir/shared/lib/anylinux.so
+sed -i -e 's|/etc/ld.so.cache|/tmp/ld.so.cache|g' ./AppDir/bin/ldconfig
 echo '#!/bin/sh
-if ! command -v cc 1>/dev/null; then
-	>&2 echo '================================================================='
-	>&2 echo 'WARNING: No C compiler detected, python may need this at runtime!'
-	>&2 echo '================================================================='
+if command -v ldconfig 1>/dev/null && [ ! -f /tmp/ld.so.cache ]; then
+	exec ldconfig
 fi
-' > ./AppDir/bin/cc-check.hook
-chmod +x ./AppDir/bin/cc-check.hook
+' > ./AppDir/bin/ldconfig.hook
+chmod +x ./AppDir/bin/ldconfig.hook
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
